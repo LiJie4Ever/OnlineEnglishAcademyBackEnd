@@ -1,19 +1,20 @@
-//export GOOGLE_APPLICATION_CREDENTIALS=/Users/davidxuan/Desktop/USC/577A/OnlineEnglishLearningAcadamyBackEnd/functions/service-account-file.json
-
 const functions = require('firebase-functions');
 const app = require('express')();
 const admin = require('firebase-admin');
 
+
+
 admin.initializeApp(functions.config().firebase);
 
-const {getCourse} = require('./handler/course');
-const {getLesson} = require('./handler/lesson');
-const {addUser, getUser, modifyUser} = require('./handler/user');
+const {retrieveBlog} = require('./handler/blog');
+const {getCourses} = require('./handler/course');
+const {retrieveTeacherInfo} = require('./handler/teacher');
 
-app.get('/course', getCourse);
-app.get('/lesson', getLesson);
-app.post('/addUser', addUser);
-app.post('/getUser', getUser);
-app.post('/modifyUser', modifyUser);
+//app.post('/create_meeting', signUp);
+
+app.get('/blog', retrieveBlog);
+app.get('/course', getCourses);
+app.get('/teacher', retrieveTeacherInfo);
+
 
 exports.api = functions.https.onRequest(app);
