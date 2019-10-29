@@ -7,11 +7,11 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
 const {getCourse} = require('./handler/course');
-const {getLesson} = require('./handler/lesson');
+// const {getLesson} = require('./handler/lesson');
 const {addUser, getUser, modifyUser} = require('./handler/user');
 
 app.get('/course', getCourse);
-app.get('/lesson', getLesson);
+// app.get('/lesson', getLesson);
 app.post('/addUser', addUser);
 app.post('/getUser', getUser);
 app.post('/modifyUser', modifyUser);
