@@ -6,14 +6,33 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-const {getCourse} = require('./handler/course');
-// const {getLesson} = require('./handler/lesson');
-const {addUser, getUser, modifyUser} = require('./handler/user');
+const {getUser, modifyUser, removeUser} = require('./handler/user');
 
-app.get('/course', getCourse);
-// app.get('/lesson', getLesson);
-app.post('/addUser', addUser);
-app.post('/getUser', getUser);
-app.post('/modifyUser', modifyUser);
+const {addTutor, modifyTutor, removeTutor} = require('./handler/admin');
+const {addBlog, modifyBlog, removeBlog} = require('./handler/admin');
+const {addCourse, modifyCourse, removeCourse} = require('./handler/admin');
+const {addLesson, modifyLesson, removeLesson} = require('./handler/admin');
+
+// user module
+app.post('/user/get', getUser);
+app.post('/user/modify', modifyUser);
+app.post('/user/remove', removeUser);
+
+// admin module
+app.post('/tutor/add', addTutor);
+app.post('/tutor/modify', modifyTutor);
+app.post('/tutor/remove', removeTutor);
+
+app.post('/blog/add', addBlog);
+app.post('/blog/modify', modifyBlog);
+app.post('/blog/remove', removeBlog);
+
+app.post('/course/add', addCourse);
+app.post('/course/modify', modifyCourse);
+app.post('/course/remove', removeCourse);
+
+app.post('/lesson/add', addLesson);
+app.post('/lesson/modify', modifyLesson);
+app.post('/lesson/remove', removeLesson);
 
 exports.api = functions.https.onRequest(app);

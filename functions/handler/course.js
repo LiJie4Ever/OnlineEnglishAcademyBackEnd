@@ -1,12 +1,14 @@
 const admin = require('firebase-admin');
 
-exports.getCourse = (req, res) => {
+exports.getAllCourse = (req, res) => {
     let course_db = admin.firestore().collection('course');
+    let r = [];
     course_db.get()
         .then((snapshot) => {
             snapshot.forEach((doc) => {
-                res.status(200).json(doc.data());
+                r.push(doc.data());
             })
+            res.status(200).json(r);
         })
         .catch((err) => {
             console.log('Error getting documents', err);
