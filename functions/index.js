@@ -3,6 +3,9 @@
 const functions = require('firebase-functions');
 const app = require('express')();
 const admin = require('firebase-admin');
+const cors = require('cors')
+
+app.use(cors())
 
 admin.initializeApp(functions.config().firebase);
 
@@ -12,6 +15,8 @@ const {addTutor, modifyTutor, removeTutor} = require('./handler/admin');
 const {addBlog, modifyBlog, removeBlog} = require('./handler/admin');
 const {addCourse, modifyCourse, removeCourse} = require('./handler/admin');
 const {addLesson, modifyLesson, removeLesson} = require('./handler/admin');
+
+const {getCode, getToken} = require('./handler/tutoring');
 
 // user module
 app.post('/user/get', getUser);
@@ -34,5 +39,8 @@ app.post('/course/remove', removeCourse);
 app.post('/lesson/add', addLesson);
 app.post('/lesson/modify', modifyLesson);
 app.post('/lesson/remove', removeLesson);
+
+app.post('/meeting/getCode', getCode);
+app.post('/meeting/getToken', getToken);
 
 exports.api = functions.https.onRequest(app);
