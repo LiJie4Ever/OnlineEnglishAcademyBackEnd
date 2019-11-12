@@ -53,25 +53,22 @@ exports.getToken = (req, res) => {
             }
         }, function(error, response, body) {
             if (error) {
-                console.log("Error when getting Zoom token: " + error);
-                return;
+                res.status(400).json({"Error": error});
             }
             body = JSON.parse(body);
 
             if (body.access_token) {
                 accessToken = body.access_token;
 				refreshToken = body.refresh_token;
-				console.log("Access Token: " + accessToken);
-                // Process and securely store these tokens here- TO BE IMPLEMENTED
-				res.redirect("/tutorClassroom"); 
+				res.status(200).json({"access_token": accessToken});
 				
             } else {
-                console.log("FATAL - could not get zoom token");
+                res.status(400).json({"Error": "Could not get zoom token"});
             }
             return;
         });
 
     } else {
-        console.log("Missing auth code from Zoom");
+        res.status(400).json({"Error": "Missing auth code from Zoomn"});
     }
 };
