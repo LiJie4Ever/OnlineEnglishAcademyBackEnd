@@ -24,7 +24,7 @@ exports.getCode = (req, res) => {
         if (doc.exists) {
             zoomclientsecret = doc.data()['zoomclientsecret'];
             zoomclientid = doc.data()['zoomclientid'];
-            const myappredirect = appURL + "/meetings/getToken"; 
+            const myappredirect = appURL + "/meeting/getToken"; 
             const zoomauth = "https://zoom.us/oauth/authorize" + "?response_type=code&client_id=" + zoomclientid + "&redirect_uri=" + myappredirect;         
             res.status(200).json({"redirect": zoomauth});
         } else {
