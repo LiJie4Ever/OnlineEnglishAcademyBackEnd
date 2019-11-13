@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 
-var appURL = "https://onlineenglishacademy-eddb3.firebaseapp.com";
+var appURL = "https://us-central1-onlineenglishacademy-eddb3.cloudfunctions.net";
 const myappredirect = appURL + "/api/meetings/getToken";
 
 let zoomclientid = "";
@@ -27,7 +27,6 @@ exports.getCode = (req, res) => {
             zoomclientid = doc.data()['zoomclientid'];
             // clear old access token and refresh token
             admin.firestore().collection('tutors').doc(req.body.uid).update({"access_token": "", "refresh_token": ""});
-            const myappredirect = appURL + "/meeting/getToken"; 
             const zoomauth = "https://zoom.us/oauth/authorize" + "?response_type=code&client_id=" + zoomclientid + "&redirect_uri=" + myappredirect;         
             res.status(200).json({"redirect": zoomauth});
         } else {
