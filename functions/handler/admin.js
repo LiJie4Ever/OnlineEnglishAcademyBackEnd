@@ -62,7 +62,7 @@ exports.addBlog = (req, res) => {
     admin.firestore().collection('blog').add(req.body.fields)
     .then((docRef) =>{
         docRef.update({
-            timestamp: admin.firestore.FieldValue.serverTimestamp()
+            date: admin.firestore.FieldValue.serverTimestamp();
         });
         res.status(200).json({"Success": docRef.id});
     })
