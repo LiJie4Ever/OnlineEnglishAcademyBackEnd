@@ -33,7 +33,7 @@ exports.modifyUser = (req, res) => {
     admin.firestore().collection('users').doc(req.body.id).get()
     .then(function(doc) {
         if (doc.exists) {
-            admin.firestore().collection('users').doc(req.body.id).set(req.body.fields);
+            admin.firestore().collection('users').doc(req.body.id).update(req.body.fields);
             res.status(200).json({"Success": "User modified"});
         } else {
             res.status(400).json({"Error": "User not found"});

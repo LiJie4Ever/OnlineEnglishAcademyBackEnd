@@ -3,9 +3,9 @@
 const functions = require('firebase-functions');
 const app = require('express')();
 const admin = require('firebase-admin');
-const cors = require('cors')
+const cors = require('cors');
 
-app.use(cors())
+app.use(cors());
 
 admin.initializeApp(functions.config().firebase);
 

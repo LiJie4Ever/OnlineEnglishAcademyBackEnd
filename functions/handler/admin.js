@@ -31,7 +31,7 @@ exports.modifyTutor = (req, res) => {
     admin.firestore().collection('tutors').doc(req.body.id).get()
     .then(function(doc) {
         if (doc.exists) {
-            admin.firestore().collection('tutors').doc(req.body.id).set(req.body.fields)
+            admin.firestore().collection('tutors').doc(req.body.id).update(req.body.fields)
             res.status(200).json({"Success": "Tutor modified"});
         } else {
             res.status(404).json({"Error": "Tutor not found"});
@@ -83,7 +83,7 @@ exports.modifyBlog = (req, res) => {
     admin.firestore().collection('blog').doc(req.body.id).get()
     .then(function(doc) {
         if (doc.exists) {
-            admin.firestore().collection('blog').doc(req.body.id).set(req.body.fields);
+            admin.firestore().collection('blog').doc(req.body.id).update(req.body.fields);
             res.status(200).json({"Success": "Blog modified"});
         } else {
             res.status(404).json({"Error": "Blog not found"});
@@ -134,7 +134,7 @@ exports.modifyCourse = (req, res) => {
     admin.firestore().collection('course').doc(req.body.id).get()
     .then(function(doc) {
         if (doc.exists) {
-            admin.firestore().collection('course').doc(req.body.id).set(req.body.fields);
+            admin.firestore().collection('course').doc(req.body.id).update(req.body.fields);
             res.status(200).json({"Success": "Course modified"});
         } else {
             res.status(404).json({"Error": "Course not found"});
@@ -184,7 +184,7 @@ exports.modifyLesson = (req, res) => {
     admin.firestore().collection('lesson').doc(req.body.id).get()
     .then(function(doc) {
         if (doc.exists) {
-            admin.firestore().collection('lesson').doc(req.body.id).set(req.body.fields);
+            admin.firestore().collection('lesson').doc(req.body.id).update(req.body.fields);
             res.status(200).json({"Success": "Lesson modified"});
         } else {
             res.status(404).json({"Error": "Lesson not found"});

@@ -5,6 +5,7 @@ const myappredirect = appURL + "/meetings/getToken";
 
 let zoomclientid = "";
 let zoomclientsec = "";
+let uid = "";
 
 function validParam(id) {
     if (id == "" || typeof(id) != typeof("abc")) {
@@ -18,12 +19,14 @@ exports.getCode = (req, res) => {
     if (!validParam(req.body.uid)) {
         res.status(400).json({"Error": "Invalid ID"});
     }
-
+    uid = req.body.uid;
     admin.firestore().collection('tutors').doc(req.body.uid).get()
     .then(function(doc) {
         if (doc.exists) {
             zoomclientsecret = doc.data()['zoomclientsecret'];
             zoomclientid = doc.data()['zoomclientid'];
+            // clear old access token and refresh token
+            admin.firestore().collection('tutors').doc(req.body.uid).update({"access_token": "", "refresh_token": ""});
             const myappredirect = appURL + "/meeting/getToken"; 
             const zoomauth = "https://zoom.us/oauth/authorize" + "?response_type=code&client_id=" + zoomclientid + "&redirect_uri=" + myappredirect;         
             res.status(200).json({"redirect": zoomauth});
@@ -59,8 +62,9 @@ exports.getToken = (req, res) => {
 
             if (body.access_token) {
                 accessToken = body.access_token;
-				refreshToken = body.refresh_token;
-				res.status(200).json({"access_token": accessToken});
+                refreshToken = body.refresh_token;
+                admin.firestore().collection('tutors').doc(uid).update({"access_token": access_token, "refresh_token": refresh_token});
+				res.status(200).json({"Success": "Token updated"});
 				
             } else {
                 res.status(400).json({"Error": "Could not get zoom token"});
