@@ -11,7 +11,7 @@ function validParam(id) {
 // TUTOR RELATED FUNCTIONS
 
 exports.addTutor = (req, res) => {
-    admin.firestore().collection('tutor').add(req.body.fields)
+    admin.firestore().collection('tutors').add(req.body.fields)
     .then((docRef) =>{
         res.status(200).send({"Success": docRef.id});
     })
