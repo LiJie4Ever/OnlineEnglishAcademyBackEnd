@@ -27,7 +27,7 @@ exports.modifyTutor = (req, res) => {
     admin.firestore().collection('tutors').doc(req.body.id).get()
     .then(function(doc) {
         if (doc.exists) {
-            admin.firestore().collection('tutors').doc(req.body.id).update(req.body.fields)
+            admin.firestore().collection('tutors').doc(req.body.id).update(req.body.fields);
             res.status(200).json({"Success": "Tutor modified"});
         } else {
             res.status(404).json({"Error": "Tutor not found"});

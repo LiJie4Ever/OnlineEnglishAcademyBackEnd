@@ -52,7 +52,7 @@ exports.removeUser = (req, res) => {
     admin.firestore().collection('users').doc(req.body.id).get()
     .then(function(doc) {
         if (doc.exists) {
-            admin.firestore().collection('users').doc(req.body.id).delete();
+           admin.firestore().collection('users').doc(req.body.id).delete();
             res.status(200).json({"Success": "User removed"});
         } else {
             res.status(400).json({"Error": "User not found"});
