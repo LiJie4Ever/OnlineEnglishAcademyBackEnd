@@ -11,7 +11,7 @@ function validParam(id) {
 // TUTOR RELATED FUNCTIONS
 
 exports.addTutor = (req, res) => {
-    admin.firestore().collection('course').add(req.body.fields)
+    admin.firestore().collection('tutor').add(req.body.fields)
     .then((docRef) =>{
         res.status(200).send({"Success": docRef.id});
     })
@@ -59,7 +59,7 @@ exports.removeTutor = (req, res) => {
 // BLOG RELATED FUNCTIONS
 
 exports.addBlog = (req, res) => {
-    admin.firestore().collection('course').add(req.body.fields)
+    admin.firestore().collection('blog').add(req.body.fields)
     .then((docRef) =>{
         res.status(200).json({"Success": docRef.id});
     })
