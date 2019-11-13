@@ -11,13 +11,9 @@ function validParam(id) {
 // TUTOR RELATED FUNCTIONS
 
 exports.addTutor = (req, res) => {
-    if (!validParam(req.body.id)) {
-        res.status(400).send({"Error": "Invalid ID"});
-    }
-    let userRef = admin.firestore().collection('tutors').doc(req.body.id);
-    userRef.set(req.body.fields)
-    .then(() =>{
-        res.status(200).send({"Success": "Tutor added"});
+    admin.firestore().collection('course').add(req.body.fields)
+    .then((docRef) =>{
+        res.status(200).send({"Success": docRef.id});
     })
     .catch((err) =>{
         res.status(400).send({"Error": err.message});
@@ -63,13 +59,9 @@ exports.removeTutor = (req, res) => {
 // BLOG RELATED FUNCTIONS
 
 exports.addBlog = (req, res) => {
-    if (!validParam(req.body.id)) {
-        res.status(400).json({"Error": "Invalid ID"});
-    }
-    let userRef = admin.firestore().collection('blog').doc(req.body.id);
-    userRef.set(req.body.fields)
-    .then(() =>{
-        res.status(200).json({"Success": "Blog added"});
+    admin.firestore().collection('course').add(req.body.fields)
+    .then((docRef) =>{
+        res.status(200).json({"Success": docRef.id});
     })
     .catch((err) =>{
         res.status(400).json({"Error": err});
@@ -114,13 +106,9 @@ exports.removeBlog = (req, res) => {
 // COURSE RELATED FUNCTIONS
 
 exports.addCourse = (req, res) => {
-    if (!validParam(req.body.id)) {
-        res.status(400).json({"Error": "Invalid ID"});
-    }
-    let userRef = admin.firestore().collection('course').doc(req.body.id);
-    userRef.set(req.body.fields)
-    .then(() =>{
-        res.status(200).json({"Success": "Course added"});
+    admin.firestore().collection('course').add(req.body.fields)
+    .then((docRef) =>{
+        res.status(200).json({"Success": docRef.id});
     })
     .catch((err) =>{
         res.status(400).json({"Error": err});
@@ -164,13 +152,9 @@ exports.removeCourse = (req, res) => {
 // LESSON RELATED FUNCTIONS
 
 exports.addLesson = (req, res) => {
-    if (!validParam(req.body.id)) {
-        res.status(400).json({"Error": "Invalid ID"});
-    }
-    let userRef = admin.firestore().collection('lesson').doc(req.body.id);
-    userRef.set(req.body.fields)
-    .then(() =>{
-        res.status(200).json({"Success": "Lesson added"});
+    admin.firestore().collection('lesson').add(req.body.fields)
+    .then((docRef) =>{
+        res.status(200).json({"Success": docRef.id});
     })
     .catch((err) =>{
         res.status(400).json({"Error": err});
