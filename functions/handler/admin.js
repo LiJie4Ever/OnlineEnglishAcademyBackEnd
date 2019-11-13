@@ -61,6 +61,9 @@ exports.removeTutor = (req, res) => {
 exports.addBlog = (req, res) => {
     admin.firestore().collection('blog').add(req.body.fields)
     .then((docRef) =>{
+        docRef.update({
+            timestamp: admin.firestore.FieldValue.serverTimestamp()
+        });
         res.status(200).json({"Success": docRef.id});
     })
     .catch((err) =>{
@@ -84,6 +87,7 @@ exports.modifyBlog = (req, res) => {
         res.status(400).json({"Error": err});
     });
 };
+
 
 exports.removeBlog = (req, res) => {
     if (!validParam(req.body.id)) {

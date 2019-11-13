@@ -41,6 +41,6 @@ app.post('/lesson/modify', modifyLesson);
 app.post('/lesson/remove', removeLesson);
 
 app.post('/meeting/getCode', getCode);
-app.post('/meeting/getToken', getToken);
+app.get('/meeting/getToken', getToken);
 
 exports.api = functions.https.onRequest(app);

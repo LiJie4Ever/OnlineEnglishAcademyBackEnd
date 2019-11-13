@@ -1,10 +1,14 @@
 const admin = require('firebase-admin');
+const request = require("request");
 
 var appURL = "https://us-central1-onlineenglishacademy-eddb3.cloudfunctions.net";
-const myappredirect = appURL + "/api/meetings/getToken";
+const myappredirect = appURL + "/api/meeting/getToken";
 
-let zoomclientid = "";
-let zoomclientsec = "";
+// var appURL = "https://onlineenglishacademy-eddb3.firebaseapp.com";
+// var myappredirect = appURL;
+
+const zoomclientid = "A2r731ERQheN0w2huAoMng"; //Client ID for team2eola@gmail.com Zoom account
+const zoomclientsec = "UYUTDviTDJrTjR6kJaewku7Kdb2JKoG8"; //Security key for team2eola@gmail.com Zoom account
 let uid = "";
 
 function validParam(id) {
@@ -23,11 +27,9 @@ exports.getCode = (req, res) => {
     admin.firestore().collection('tutors').doc(req.body.uid).get()
     .then(function(doc) {
         if (doc.exists) {
-            zoomclientsecret = doc.data()['zoomclientsecret'];
-            zoomclientid = doc.data()['zoomclientid'];
             // clear old access token and refresh token
             admin.firestore().collection('tutors').doc(req.body.uid).update({"access_token": "", "refresh_token": ""});
-            const zoomauth = "https://zoom.us/oauth/authorize" + "?response_type=code&client_id=" + zoomclientid + "&redirect_uri=" + myappredirect;         
+            const zoomauth = "https://zoom.us/oauth/authorize?response_type=code&client_id=" + zoomclientid + "&redirect_uri=" + myappredirect;
             res.status(200).json({"redirect": zoomauth});
         } else {
             res.status(400).json({"Error": "User not found"});
@@ -43,7 +45,7 @@ exports.getToken = (req, res) => {
     if (req.query.code) {
 		var auth = "Basic " + new Buffer(zoomclientid + ':' +
         zoomclientsec).toString('base64');
-	
+        console.log("Auth: ", auth);
         var url = zoomtokenep + '?grant_type=authorization_code&code=' +
             req.query.code + '&redirect_uri=' + myappredirect;
 	
@@ -57,21 +59,25 @@ exports.getToken = (req, res) => {
             if (error) {
                 console.log(error);
             }
-            body = JSON.parse(body);
+            console.log("Body: ", body);
+            if (body) {
+                body = JSON.parse(body);
 
-            if (body.access_token) {
-                accessToken = body.access_token;
-                refreshToken = body.refresh_token;
-                admin.firestore().collection('tutors').doc(uid).update({"access_token": access_token, "refresh_token": refresh_token});
-				console.log("Token updated");
-				
+                if (body.access_token) {
+                    accessToken = body.access_token;
+                    refreshToken = body.refresh_token;
+                    admin.firestore().collection('tutors').doc(uid).update({"access_token": access_token, "refresh_token": refresh_token});
+                    res.status(200).json({"Success": "Tokens updated"});
+                    
+                } else {
+                    res.status(400).json({"Error": "Could not get zoom token"});
+                }
             } else {
-                console.log("Error: Could not get zoom token");
+                res.status(400).json({"Error": "Body is not found"});
             }
-            return;
         });
 
     } else {
-        console.log("Error: Missing auth code from Zoomn");
+        res.status(400).json({"Error": "Missing auth code from Zoomn"});
     }
 };
