@@ -12,6 +12,6 @@ exports.getAllCourse = (req, res) => {
         })
         .catch((err) => {
             console.log('Error getting documents', err);
-            res.status(400).json(err);
+            res.status(400).json(err.message);
         });
 };

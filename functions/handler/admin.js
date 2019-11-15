@@ -33,7 +33,7 @@ exports.modifyTutor = (req, res) => {
             res.status(404).json({"Error": "Tutor not found"});
         }
     }).catch(function(err) {
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 
@@ -51,7 +51,7 @@ exports.removeTutor = (req, res) => {
             res.status(404).json({"Error": "Tutor not found"});
         }
     }).catch(function(err) {
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 }
 
@@ -67,7 +67,7 @@ exports.addBlog = (req, res) => {
         res.status(200).json({"Success": docRef.id});
     })
     .catch((err) =>{
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 
@@ -84,7 +84,7 @@ exports.modifyBlog = (req, res) => {
             res.status(404).json({"Error": "Blog not found"});
         }
     }).catch(function(err) {
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 
@@ -102,7 +102,7 @@ exports.removeBlog = (req, res) => {
             res.status(404).json({"Error": "Blog not found"});
         }
     }).catch(function(err) {
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 
@@ -115,7 +115,7 @@ exports.addCourse = (req, res) => {
         res.status(200).json({"Success": docRef.id});
     })
     .catch((err) =>{
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 
@@ -132,7 +132,7 @@ exports.modifyCourse = (req, res) => {
             res.status(404).json({"Error": "Course not found"});
         }
     }).catch(function(err) {
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 
@@ -149,7 +149,7 @@ exports.removeCourse = (req, res) => {
             res.status(404).json({"Error": "Course not found"});
         }
     }).catch(function(err) {
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 
@@ -161,7 +161,7 @@ exports.addLesson = (req, res) => {
         res.status(200).json({"Success": docRef.id});
     })
     .catch((err) =>{
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 
@@ -178,7 +178,7 @@ exports.modifyLesson = (req, res) => {
             res.status(404).json({"Error": "Lesson not found"});
         }
     }).catch(function(err) {
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 
@@ -195,7 +195,7 @@ exports.removeLesson = (req, res) => {
             res.status(404).json({"Error": "Lesson not found"});
         }
     }).catch(function(err) {
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 

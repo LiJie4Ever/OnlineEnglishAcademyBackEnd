@@ -10,6 +10,7 @@ function validParam(id) {
 exports.getUser = (req, res) => {
     if (!validParam(req.body.id)) {
         res.status(400).json({"Error": "Invalid ID"});
+        return;
     }
 
     admin.firestore().collection('users').doc(req.body.id).get()
@@ -20,7 +21,7 @@ exports.getUser = (req, res) => {
             res.status(400).json({"Error": "User not found"});
         }
     }).catch(function(err) {
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 
@@ -39,7 +40,7 @@ exports.modifyUser = (req, res) => {
             res.status(400).json({"Error": "User not found"});
         }
     }).catch(function(err) {
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };
 
@@ -58,6 +59,6 @@ exports.removeUser = (req, res) => {
             res.status(400).json({"Error": "User not found"});
         }
     }).catch(function(err) {
-        res.status(400).json({"Error": err});
+        res.status(400).json({"Error": err.message});
     });
 };

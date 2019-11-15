@@ -16,7 +16,7 @@ const {addBlog, modifyBlog, removeBlog} = require('./handler/admin');
 const {addCourse, modifyCourse, removeCourse} = require('./handler/admin');
 const {addLesson, modifyLesson, removeLesson} = require('./handler/admin');
 
-const {getCode, getToken} = require('./handler/tutoring');
+const {sendConfirmation} = require('./handler/tutoring');
 
 // user module
 app.post('/user/get', getUser);
@@ -40,7 +40,6 @@ app.post('/lesson/add', addLesson);
 app.post('/lesson/modify', modifyLesson);
 app.post('/lesson/remove', removeLesson);
 
-app.post('/meeting/getCode', getCode);
-app.get('/meeting/getToken', getToken);
+app.post('/meeting/sendConfirmation', sendConfirmation);
 
 exports.api = functions.https.onRequest(app);
