@@ -14,31 +14,24 @@ const { addBlog, modifyBlog, removeBlog } = require('./handler/admin');
 const { addCourse, modifyCourse, removeCourse } = require('./handler/admin');
 const { addLesson, modifyLesson, removeLesson } = require('./handler/admin');
 
-const { getBlogComments, postComment } = require('./handler/blog');
+const { retrieveBlog, getBlogComments, postComment } = require('./handler/blog');
 
 const { sendConfirmation } = require('./handler/tutoring');
-const { retrieveBlog } = require('./handler/blog');
 const { getCourse } = require('./handler/course');
 const { retrieveTeacherInfo } = require('./handler/teacher');
 // cart module
-const { addCourseIntoCart, deleteCourseFromCart,displayCartInfo } = require('./handler/cart');
+const { addCourseIntoCart, deleteCourseFromCart, displayCartInfo } = require('./handler/cart');
 const { addLiveTutorRequestIntoCart, deleteLiveTutorRequestFromCart } = require('./handler/cart');
 // payment module
-const { payment, paid} = require('./handler/pay');
+const { payment, paid } = require('./handler/pay');
 
 //request module
-const {getRequestList} = require('./handler/request')
-const {createRequest} = require('./handler/request')
-const {setRequestPrice} = require('./handler/request')
-const {confirmRequest} = require('./handler/request')
-const {cancelRequest} = require('./handler/request')
-const {setRequestStatus} = require('./handler/request')
+const { getRequestList } = require('./handler/request');
+const { createRequest, confirmRequest, cancelRequest, setRequestStatus, setRequestPrice } = require('./handler/request');
+
 //schedule related
-const {getScheduleList} = require('./handler/schedule')
-const {getStuSchedule} = require('./handler/schedule')
-const {getTuSchedule} = require('./handler/schedule')
-const {addSchedule} = require('./handler/schedule')
-const {deleteSchedule} = require('./handler/schedule')
+const { getScheduleList, getStuSchedule, getTuSchedule } = require('./handler/schedule');
+const { addSchedule, deleteSchedule } = require('./handler/schedule');
 
 
 app.get('/blog', retrieveBlog);
