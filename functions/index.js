@@ -33,6 +33,13 @@ const {setRequestPrice} = require('./handler/request')
 const {confirmRequest} = require('./handler/request')
 const {cancelRequest} = require('./handler/request')
 const {setRequestStatus} = require('./handler/request')
+//schedule related
+const {getScheduleList} = require('./handler/schedule')
+const {getStuSchedule} = require('./handler/schedule')
+const {getTuSchedule} = require('./handler/schedule')
+const {addSchedule} = require('./handler/schedule')
+const {deleteSchedule} = require('./handler/schedule')
+
 
 app.get('/blog', retrieveBlog);
 app.get('/course', getCourse);
@@ -83,5 +90,11 @@ app.post('/request/setPrice', setRequestPrice);
 app.post('/request/confirm', confirmRequest);
 app.post('/request/cancel', cancelRequest);
 app.post('/request/setStatus', setRequestStatus);
+//schedule related
+app.get('/schedule/getList', getScheduleList);
+app.get('/schedule/getStu', getStuSchedule);
+app.get('/schedule/getTu', getTuSchedule);
+app.post('/schedule/delete', deleteSchedule);
+app.post('/schedule/add', addSchedule);
 
 exports.api = functions.https.onRequest(app);
