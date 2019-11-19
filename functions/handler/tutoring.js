@@ -1,10 +1,10 @@
 // firebase functions:config:set gmail.email="team2eola@gmail.com" gmail.password="CsCi577a"
 
 const admin = require('firebase-admin');
-const functions = require('firebase-functions');
 const APP_NAME = 'Online English Learning Academy';
 const nodemailer = require('nodemailer');
 
+// use when testing other functions locally
 const gmailEmail = "";
 const gmailPassword = "";
 
