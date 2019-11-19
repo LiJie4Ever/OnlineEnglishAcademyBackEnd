@@ -1,0 +1,18 @@
+
+
+  addBlog
+    ✓ testing with correct parameters, should add an entry to the database (514ms)
+
+  modifyBlog
+    ✓ testing with invalid id, should return "Invalid ID error"
+    ✓ testing with id that does not exist, should return "Blog not found error" (87ms)
+    ✓ testing with correct parameters, database should be modified (71ms)
+
+  removeBlog
+    ✓ testing with invalid id, should return "Invalid ID error"
+    ✓ testing with id that does not exist, should return "Blog not found error" (67ms)
+    ✓ testing with correct parameters, entry should be removed (70ms)
+
+
+  7 passing (820ms)
+
