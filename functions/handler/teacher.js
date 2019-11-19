@@ -1,11 +1,7 @@
 const admin = require('firebase-admin');
 
 /**
-<<<<<<< HEAD
- * author: Vito
-=======
  *
->>>>>>> 12258d4f6bc84e1a762a25efc12e08e4b004db7b
  * retrieve all fields in each document.
  *
  * */

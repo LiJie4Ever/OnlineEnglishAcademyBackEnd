@@ -2,14 +2,10 @@
 
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-admin.initializeApp(functions.config().firebase);
 const app = require('express')();
 const cors = require('cors');
-app.use(cors());
-
-
-
 admin.initializeApp(functions.config().firebase);
+app.use(cors());
 
 const { getUser, modifyUser, removeUser } = require('./handler/user');
 
@@ -21,38 +17,27 @@ const { addLesson, modifyLesson, removeLesson } = require('./handler/admin');
 const { getBlogComments, postComment } = require('./handler/blog');
 
 const { sendConfirmation } = require('./handler/tutoring');
-const {retrieveBlog} = require('./handler/blog');
-const {getCourse} = require('./handler/course');
-// const {getLesson} = require('./handler/lesson');
-const {addUser, getUser, modifyUser} = require('./handler/user');
-const {retrieveTeacherInfo} = require('./handler/teacher');
+const { retrieveBlog } = require('./handler/blog');
+const { getCourse } = require('./handler/course');
+const { retrieveTeacherInfo } = require('./handler/teacher');
 // cart module
-const {addCourseIntoCart} = require('./handler/cart');
-const {deleteCourseFromCart} = require('./handler/cart');
-const {displayCartInfo} = require('./handler/cart');
-const {addLiveTutorRequestIntoCart} = require('./handler/cart');
-const {deleteLiveTutorRequestFromCart} = require('./handler/cart');
+const { addCourseIntoCart, deleteCourseFromCart,displayCartInfo } = require('./handler/cart');
+const { addLiveTutorRequestIntoCart, deleteLiveTutorRequestFromCart } = require('./handler/cart');
 // payment
-const {payment} = require('./handler/pay');
-const {paid} = require('./handler/pay');
-
-const {retrieveBlog} = require('./handler/blog');
-const {getCourses} = require('./handler/course');
-const {retrieveTeacherInfo} = require('./handler/teacher');
-
+const { payment, paid} = require('./handler/pay');
 
 app.get('/blog', retrieveBlog);
 app.get('/course', getCourse);
-// app.get('/lesson', getLesson);
-app.post('/addUser', addUser);
-app.post('/getUser', getUser);
-app.post('/modifyUser', modifyUser);
 app.get('/teacher', retrieveTeacherInfo);
-app.get('/addCourseIntoCart', addCourseIntoCart);
-app.get('/deleteCourseFromCart', deleteCourseFromCart);
-app.get('/addLiveTutorRequestIntoCart', addLiveTutorRequestIntoCart);
-app.get('/deleteTutorRequestFromCart', deleteLiveTutorRequestFromCart);
+
+// cart module
+app.get('/cart/course/add', addCourseIntoCart);
+app.get('/cart/course/delete', deleteCourseFromCart);
+app.get('/cart/tutor/add', addLiveTutorRequestIntoCart);
+app.get('/cart/tutor/delete', deleteLiveTutorRequestFromCart);
 app.get('/cart', displayCartInfo);
+
+// payment module
 app.post('/pay', payment);
 app.get('/classList', paid);
 
@@ -87,7 +72,7 @@ app.post('/meeting/sendConfirmation', sendConfirmation);
 //app.post('/create_meeting', signUp);
 
 app.get('/blog', retrieveBlog);
-app.get('/course', getCourses);
+app.get('/course', getCourse);
 app.get('/teacher', retrieveTeacherInfo);
 
 
