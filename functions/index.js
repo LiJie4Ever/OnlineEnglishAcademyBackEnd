@@ -1,4 +1,4 @@
-//export GOOGLE_APPLICATION_CREDENTIALS=/Users/davidxuan/Desktop/USC/577A/OnlineEnglishLearningAcadamyBackEnd/functions/service-account-file.json
+//export GOOGLE_APPLICATION_CREDENTIALS=/Users/davidxuan/Desktop/USC/577A/OnlineEnglishAcademyBackEnd/functions/service-account-file.json
 
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
@@ -23,8 +23,16 @@ const { retrieveTeacherInfo } = require('./handler/teacher');
 // cart module
 const { addCourseIntoCart, deleteCourseFromCart,displayCartInfo } = require('./handler/cart');
 const { addLiveTutorRequestIntoCart, deleteLiveTutorRequestFromCart } = require('./handler/cart');
-// payment
+// payment module
 const { payment, paid} = require('./handler/pay');
+
+//request module
+const {getRequestList} = require('./handler/request')
+const {createRequest} = require('./handler/request')
+const {setRequestPrice} = require('./handler/request')
+const {confirmRequest} = require('./handler/request')
+const {cancelRequest} = require('./handler/request')
+const {setRequestStatus} = require('./handler/request')
 
 app.get('/blog', retrieveBlog);
 app.get('/course', getCourse);
@@ -68,12 +76,12 @@ app.post('/blog/post_comment', postComment);
 
 app.post('/meeting/sendConfirmation', sendConfirmation);
 
-
-//app.post('/create_meeting', signUp);
-
-app.get('/blog', retrieveBlog);
-app.get('/course', getCourse);
-app.get('/teacher', retrieveTeacherInfo);
-
+//request module
+app.get('/request/getList', getRequestList);
+app.post('/request/create', createRequest);
+app.post('/request/setPrice', setRequestPrice);
+app.post('/request/confirm', confirmRequest);
+app.post('/request/cancel', cancelRequest);
+app.post('/request/setStatus', setRequestStatus);
 
 exports.api = functions.https.onRequest(app);
