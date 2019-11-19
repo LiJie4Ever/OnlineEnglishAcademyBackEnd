@@ -17,6 +17,12 @@ const {setRequestPrice} = require('./handler/request')
 const {confirmRequest} = require('./handler/request')
 const {cancelRequest} = require('./handler/request')
 const {setRequestStatus} = require('./handler/request')
+
+//schedule related
+const {getScheduleList} = require('./handler/schedule')
+const {getStuSchedule}  = require('./handler/schedule')
+const {getTuSchedule}   = require('./handler/schedule')
+
 //app.post('/create_meeting', signUp);
 
 app.get('/blog', retrieveBlog);
@@ -29,5 +35,9 @@ app.post('/request/setPrice', setRequestPrice);
 app.post('/request/confirm', confirmRequest);
 app.post('/request/cancel', cancelRequest);
 app.post('/request/setStatus', setRequestStatus);
+//schedule related
+app.get('/schedule/getList', getScheduleList);
+app.get('/schedule/getStu', getStuSchedule);
+app.get('/schedule/getTu', getTuSchedule);
 
 exports.api = functions.https.onRequest(app);
