@@ -23,7 +23,8 @@
     "nodemailer": "^4.0.1",
     "request": "2.88.0",
     "sinon": "^4.5.0",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "paypal-rest-sdk": "^1.8.1"
   },
   "devDependencies": {
     "firebase-functions-test": "^0.1.6"
