@@ -7,6 +7,8 @@ const app = require('express')();
 const cors = require('cors');
 app.use(cors());
 
+
+
 admin.initializeApp(functions.config().firebase);
 
 const { getUser, modifyUser, removeUser } = require('./handler/user');
@@ -33,6 +35,10 @@ const {deleteLiveTutorRequestFromCart} = require('./handler/cart');
 // payment
 const {payment} = require('./handler/pay');
 const {paid} = require('./handler/pay');
+
+const {retrieveBlog} = require('./handler/blog');
+const {getCourses} = require('./handler/course');
+const {retrieveTeacherInfo} = require('./handler/teacher');
 
 
 app.get('/blog', retrieveBlog);
@@ -76,5 +82,13 @@ app.get('/blog/comments', getBlogComments);
 app.post('/blog/post_comment', postComment);
 
 app.post('/meeting/sendConfirmation', sendConfirmation);
+
+
+//app.post('/create_meeting', signUp);
+
+app.get('/blog', retrieveBlog);
+app.get('/course', getCourses);
+app.get('/teacher', retrieveTeacherInfo);
+
 
 exports.api = functions.https.onRequest(app);
