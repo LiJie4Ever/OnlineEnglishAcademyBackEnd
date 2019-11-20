@@ -1,25 +1,39 @@
-
 const admin = require('firebase-admin');
 /**
  * author: Vito
  * cart module.
  * */
 
+function validParam(id) {
+    if (id === "" || typeof (id) !== typeof ("abc")) {
+        return false;
+    }
+    return true;
+}
 /**
  * add a course into cart
  *
  * */
 exports.addCourseIntoCart = (req, res) => {
-
-    let currentUser = admin.firestore().collection("student").doc("abc");  //TODO: change to the current uid
-    // get current course json from front-end
-    let currentCourseId = JSON.parse(req.body.toString());
-    console.log(currentCourseId.courseID);
-    // check the currentCourse is owned or not, if owned, alert massage, else add into cart
-    currentUser.update({
-        courseArrayCart: admin.firestore.FieldValue.arrayUnion(currentCourseId)
-    });
-
+    let studentID = req.body.studentID;
+    console.log(studentID);
+    if(!validParam(studentID)) {
+        res.json({"Error": "Student does not exist"});
+    }
+    console.log(req.body.courseID);
+    let currentUser = admin.firestore().collection("students").doc(studentID).get()
+        .then(doc => {
+            if (!doc.exists) {
+                console.log('No such document!');
+            } else {
+                let temp = doc.data().courseArrayCart;
+                temp.push(req.body.courseID);
+                admin.firestore().collection("students").doc(studentID).update({"courseArrayCart": temp});
+            }
+        })
+        .catch(err => {
+            console.log('Error getting document', err);
+        });
 };
 
 /**
@@ -27,15 +41,31 @@ exports.addCourseIntoCart = (req, res) => {
  *
  * */
 exports.deleteCourseFromCart = (req, res) => {
-
-    let currentUser = admin.firestore().collection("student").doc("abc");  //TODO: change to the current uid
-    // get current course json from front-end
-    let currentCourseId = JSON.parse(req.body.toString());
-    console.log(currentCourseId.courseID);
-    currentUser.update({
-        courseArrayCart: admin.firestore.FieldValue.arrayRemove(currentCourseId)
-    });
-
+    let studentID = req.body.studentID;
+    if(!validParam(studentID)) {
+        res.json({"Error": "Student does not exist"});
+    }
+    let currentCourseId = req.body.courseID;
+    let currentUser = admin.firestore().collection("students").doc(studentID).get()
+        .then(doc => {
+            if (!doc.exists) {
+                console.log('No such document!');
+            } else {
+                let temp = doc.data().courseArrayCart;
+                let toBeUpdate = [];
+                for (let j = 0; j < temp.length; j++) {
+                    if (temp[j] === currentCourseId) {
+                        continue;
+                    } else {
+                        toBeUpdate.push(temp[j]);
+                    }
+                }
+                admin.firestore().collection("students").doc(studentID).update({"courseArrayCart": toBeUpdate});
+            }
+        })
+        .catch(err => {
+            console.log('Error getting document', err);
+        });
 };
 
 /**
@@ -43,16 +73,21 @@ exports.deleteCourseFromCart = (req, res) => {
  *
  * */
 exports.addLiveTutorRequestIntoCart = (req, res) => {
-
-    let currentUser = admin.firestore().collection("student").doc("abc");  //TODO: change to the current uid
-    // get current course json from front-end
-    let currentTuorRequestId = JSON.parse(req.body.toString());
-    console.log(currentTuorRequestId.requestID);
-    // check the currentCourse is owned or not, if owned, alert massage, else add into cart
-    currentUser.update({
-        onlineTutorArrayCart: admin.firestore.FieldValue.arrayUnion(currentTuorRequestId)
-    });
-
+    let studentID = req.body.studentID;
+    console.log(studentID);
+    let currentUser = admin.firestore().collection("students").doc(studentID).get()
+        .then(doc => {
+            if (!doc.exists) {
+                console.log('No such document!');
+            } else {
+                let temp = doc.data().onlineTutorArrayCart;
+                temp.push(req.body.courseID);
+                admin.firestore().collection("students").doc(studentID).update({"onlineTutorArrayCart": temp});
+            }
+        })
+        .catch(err => {
+            console.log('Error getting document', err);
+        });
 };
 
 /**
@@ -60,14 +95,29 @@ exports.addLiveTutorRequestIntoCart = (req, res) => {
  *
  * */
 exports.deleteLiveTutorRequestFromCart = (req, res) => {
+    let studentID = req.body.studentID;
+    let currentCourseId = req.body.requestID;
+    let currentUser = admin.firestore().collection("students").doc(studentID).get()
+        .then(doc => {
+            if (!doc.exists) {
+                console.log('No such document!');
+            } else {
+                let temp = doc.data().onlineTutorArrayCart;
+                let toBeUpdate = [];
+                for (let j = 0; j < temp.length; j++) {
+                    if (temp[j] === currentCourseId) {
+                        continue;
+                    } else {
+                        toBeUpdate.push(temp[j]);
+                    }
+                }
+                admin.firestore().collection("students").doc(studentID).update({"onlineTutorArrayCart": toBeUpdate});
+            }
+        })
+        .catch(err => {
+            console.log('Error getting document', err);
+        });
 
-    let currentUser = admin.firestore().collection("student").doc("abc");  //TODO: change to the current uid
-    // get current course json from front-end
-    let currentTuorRequestId = JSON.parse(req.body.toString());
-    console.log(currentTuorRequestId.requestID);
-    currentUser.update({
-        onlineTutorArrayCart: admin.firestore.FieldValue.arrayRemove(currentTuorRequestId)
-    });
 
 };
 
@@ -77,7 +127,8 @@ exports.deleteLiveTutorRequestFromCart = (req, res) => {
  * */
 exports.displayCartInfo = (req, res) => {
 
-    let currentUser = admin.firestore().collection("student").doc("abc");   //TODO: change to the current uid
+    let studentID = req.body.studentID;
+    let currentUser = admin.firestore().collection("students").doc(studentID);
     let courseIndexArray = [];
     let liveTutorIndexArray = [];
     let cartInfo = [];
@@ -89,11 +140,11 @@ exports.displayCartInfo = (req, res) => {
                 let courseArrayCart = doc.data().courseArrayCart;
                 let liveTutorArrayCart = doc.data().onlineTutorArrayCart;
                 for (let i = 0; i < courseArrayCart.length; i++) {
-                    courseIndexArray.push(courseArrayCart[i].courseID);
+                    courseIndexArray.push(courseArrayCart[i]);
                 }
                 // console.log(courseIndexArray);      // e.g. courseIndexArray: [ 'courseID_1', 'courseID_20' ]
                 for (let i = 0; i < liveTutorArrayCart.length; i++) {
-                    liveTutorIndexArray.push(liveTutorArrayCart[i].requestID);
+                    liveTutorIndexArray.push(liveTutorArrayCart[i]);
                 }
                 // console.log(liveTutorIndexArray);   // e.g. liveTutorIndexArray: [ 'requestID_1', 'requestID_20' ]
                 return [courseIndexArray, liveTutorIndexArray];
@@ -108,7 +159,10 @@ exports.displayCartInfo = (req, res) => {
                         let currentCourse = admin.firestore().collection("course").doc(courseIndexArray[i]);
                         let currentCourseInfo = currentCourse.get()
                             .then(doc => {
-                                return doc.data();
+                                let tem = doc.data();
+                                tem.id = doc.id;
+                                console.log(tem);
+                                return tem;
                             })
                             .catch(err => {
                                 console.log('Error getting document', err);
@@ -133,7 +187,10 @@ exports.displayCartInfo = (req, res) => {
                         let currentLiveTutor = admin.firestore().collection("request").doc(liveTutorIndexArray[i]);
                         let currentLiveTutorInfo = currentLiveTutor.get()
                             .then(doc => {
-                                return doc.data();
+                                let tem = doc.data();
+                                tem.id = doc.id;
+                                console.log(tem);
+                                return tem;
                             })
                             .catch(err => {
                                 console.log('Error getting document', err);

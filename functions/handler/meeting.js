@@ -49,3 +49,66 @@ exports.sendConfirmation = (req, res) => {
             res.status(400).json({ "Error": "When fetching student " + err.message });
         });
 };
+
+exports.getMeetingList = async (req, res) => {
+    let role = await admin.firestore().collection('users').doc(req.body.id).get()
+    .then(doc => {
+        if (doc.exists) {
+            if ("STUDENT" in doc.data().roles) {
+                return "student";
+            } else if ("TUTOR" in doc.data().roles) {
+                return "tutor";
+            } else {
+                return "User is admin";
+            }
+        } else {
+            return "User is not found";
+        }
+    })
+    .catch(err => {
+        return err.message;
+    });
+    if (role != "student" && role != "tutor") {
+        res.status(400).json({ "Error": role });
+        return;
+    }
+
+    query_field = "";
+    if (role == "student") {
+        query_field = "student_id";
+    } else {
+        query_field = "tutor_id";
+    }
+    var id = req.body.id;
+    admin.firestore().collection('meeting').where(query_field, "==", id).
+    orderBy('start_time').get()
+    .then(snapshot => {
+        res.status(200).json(snapshot.docs.map(doc => [doc.id, doc.data()]));
+    }).catch(function(err) {
+        res.status(400).json({"Error": err.message});
+    });
+};
+
+exports.setMeetingLink = (req, res) => {
+    admin.firestore().collection('meeting').doc(req.body.id).get()
+        .then(function (doc) {
+            if (doc.exists) {
+                admin.firestore().collection('meeting').doc(req.body.id).update(req.body.fields);
+                res.status(200).json({ "Success": "Meeting link set" });
+            } else {
+                res.status(400).json({ "Error": "Meeting not found" });
+            }
+        }).catch(function (err) {
+            res.status(400).json({ "Error": err.message });
+        });
+};
+
+exports.createMeeting = (req, res) => {
+    admin.firestore().collection('meeting').add(req.body.fields)
+        .then((docRef) => {
+            res.status(200).send({ "Success": docRef.id });
+        })
+        .catch((err) => {
+            res.status(400).send({ "Error": err.message });
+        });
+};

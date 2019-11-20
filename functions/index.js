@@ -16,9 +16,12 @@ const { addLesson, modifyLesson, removeLesson } = require('./handler/admin');
 
 const { retrieveBlog, getBlogComments, postComment } = require('./handler/blog');
 
-const { sendConfirmation } = require('./handler/tutoring');
+const { sendConfirmation, getMeetingList, setMeetingLink } = require('./handler/meeting');
+
 const { getCourse } = require('./handler/course');
 const { retrieveTeacherInfo } = require('./handler/teacher');
+
+const { getStudent } = require('./handler/student');
 // cart module
 const { addCourseIntoCart, deleteCourseFromCart, displayCartInfo } = require('./handler/cart');
 const { addLiveTutorRequestIntoCart, deleteLiveTutorRequestFromCart } = require('./handler/cart');
@@ -30,7 +33,7 @@ const { getRequestList } = require('./handler/request');
 const { createRequest, confirmRequest, cancelRequest, setRequestStatus, setRequestPrice } = require('./handler/request');
 
 //schedule related
-const { getScheduleList, getStuSchedule, getTuSchedule } = require('./handler/schedule');
+const { getScheduleList, getStuSchedule, getTuSchedule, getScheduleHistory } = require('./handler/schedule');
 const { addSchedule, deleteSchedule } = require('./handler/schedule');
 
 
@@ -39,11 +42,11 @@ app.get('/course', getCourse);
 app.get('/teacher', retrieveTeacherInfo);
 
 // cart module
-app.get('/cart/course/add', addCourseIntoCart);
-app.get('/cart/course/delete', deleteCourseFromCart);
-app.get('/cart/tutor/add', addLiveTutorRequestIntoCart);
-app.get('/cart/tutor/delete', deleteLiveTutorRequestFromCart);
-app.get('/cart', displayCartInfo);
+app.post('/cart/course/add', addCourseIntoCart);
+app.post('/cart/course/delete', deleteCourseFromCart);
+app.post('/cart/tutor/add', addLiveTutorRequestIntoCart);
+app.post('/cart/tutor/delete', deleteLiveTutorRequestFromCart);
+app.post('/cart', displayCartInfo);
 
 // payment module
 app.post('/pay', payment);
@@ -58,6 +61,8 @@ app.post('/user/remove', removeUser);
 app.post('/tutor/add', addTutor);
 app.post('/tutor/modify', modifyTutor);
 app.post('/tutor/remove', removeTutor);
+
+app.get('/student/get', getStudent);
 
 app.post('/blog/add', addBlog);
 app.post('/blog/modify', modifyBlog);
@@ -75,6 +80,8 @@ app.get('/blog/comments', getBlogComments);
 app.post('/blog/post_comment', postComment);
 
 app.post('/meeting/sendConfirmation', sendConfirmation);
+app.get('/meeting/getMeetingList', getMeetingList);
+app.post('/meeting/setMeetingLink', setMeetingLink);
 
 //request module
 app.get('/request/getList', getRequestList);
@@ -89,5 +96,6 @@ app.get('/schedule/getStu', getStuSchedule);
 app.get('/schedule/getTu', getTuSchedule);
 app.post('/schedule/delete', deleteSchedule);
 app.post('/schedule/add', addSchedule);
+app.post('/schedule/history', getScheduleHistory);
 
 exports.api = functions.https.onRequest(app);
