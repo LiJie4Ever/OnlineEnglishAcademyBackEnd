@@ -16,15 +16,13 @@ const { addLesson, modifyLesson, removeLesson } = require('./handler/admin');
 
 const { retrieveBlog, getBlogComments, postComment } = require('./handler/blog');
 
-const { sendConfirmation, getMeetingList, setMeetingLink } = require('./handler/meeting');
-
 const { getCourse } = require('./handler/course');
 const { retrieveTeacherInfo } = require('./handler/teacher');
 
 const { getStudent } = require('./handler/student');
 // cart module
 const { addCourseIntoCart, deleteCourseFromCart, displayCartInfo } = require('./handler/cart');
-const { addLiveTutorRequestIntoCart, deleteLiveTutorRequestFromCart } = require('./handler/cart');
+const { addLiveTutorRequestIntoCart, deleteLiveTutorRequestFromCart, moveToBought } = require('./handler/cart');
 // payment module
 const { payment, paid } = require('./handler/pay');
 
@@ -34,7 +32,9 @@ const { createRequest, confirmRequest, cancelRequest, setRequestStatus, setReque
 
 //schedule related
 const { getScheduleList, getStuSchedule, getTuSchedule, getScheduleHistory } = require('./handler/schedule');
-const { addSchedule, deleteSchedule } = require('./handler/schedule');
+const { addSchedule, deleteSchedule, sendConfirmation, setScheduleLink } = require('./handler/schedule');
+
+const { getLesson } = require('./handler/lesson');
 
 
 app.get('/blog', retrieveBlog);
@@ -46,6 +46,7 @@ app.post('/cart/course/add', addCourseIntoCart);
 app.post('/cart/course/delete', deleteCourseFromCart);
 app.post('/cart/tutor/add', addLiveTutorRequestIntoCart);
 app.post('/cart/tutor/delete', deleteLiveTutorRequestFromCart);
+app.post('/cart/update_bought', moveToBought);
 app.post('/cart', displayCartInfo);
 
 // payment module
@@ -72,16 +73,14 @@ app.post('/course/add', addCourse);
 app.post('/course/modify', modifyCourse);
 app.post('/course/remove', removeCourse);
 
+app.post('/lesson/get', getLesson);
+
 app.post('/lesson/add', addLesson);
 app.post('/lesson/modify', modifyLesson);
 app.post('/lesson/remove', removeLesson);
 
 app.get('/blog/comments', getBlogComments);
 app.post('/blog/post_comment', postComment);
-
-app.post('/meeting/sendConfirmation', sendConfirmation);
-app.get('/meeting/getMeetingList', getMeetingList);
-app.post('/meeting/setMeetingLink', setMeetingLink);
 
 //request module
 app.get('/request/getList', getRequestList);
@@ -97,5 +96,7 @@ app.get('/schedule/getTu', getTuSchedule);
 app.post('/schedule/delete', deleteSchedule);
 app.post('/schedule/add', addSchedule);
 app.post('/schedule/history', getScheduleHistory);
+app.post('/schedule/sendConfirmation', sendConfirmation);
+app.post('/schedule/setScheduleLink', setScheduleLink);
 
 exports.api = functions.https.onRequest(app);

@@ -10,7 +10,8 @@ const admin = require('firebase-admin');
 exports.payment = (req, res) => {
 
     // get courseArrayCart & onlineTutorArrayCart from db
-    let currentUser = admin.firestore().collection("student").doc("abc");  //TODO: change to the current uid
+    let studentID = req.body.studentID;
+    let currentUser = admin.firestore().collection("students").doc(studentID);
     // define totalCoursePrice & totalOnlineTutorPrice
     let totalCoursePrice = 0;
     let totalLiveTutorPrice = 0;
@@ -24,11 +25,11 @@ exports.payment = (req, res) => {
                 let courseArrayCart = doc.data().courseArrayCart;
                 let liveTutorArrayCart = doc.data().onlineTutorArrayCart;
                 for (let i = 0; i < courseArrayCart.length; i++) {
-                    courseIndexArray.push(courseArrayCart[i].courseID);
+                    courseIndexArray.push(courseArrayCart[i]);
                 }
                 // console.log(courseIndexArray);      // e.g. courseIndexArray: [ 'courseID_1', 'courseID_20' ]
                 for (let i = 0; i < liveTutorArrayCart.length; i++) {
-                    liveTutorIndexArray.push(liveTutorArrayCart[i].requestID);
+                    liveTutorIndexArray.push(liveTutorArrayCart[i]);
                 }
                 // console.log(liveTutorIndexArray);   // e.g. liveTutorIndexArray: [ 'requestID_1', 'requestID_20' ]
                 return [courseIndexArray, liveTutorIndexArray];
@@ -96,6 +97,7 @@ exports.payment = (req, res) => {
                 finalPrice = totalCoursePrice + totalLiveTutorPrice;
                 // call PayPal API
                 console.log("final Price is:" + finalPrice);
+                console.log("((((((((((");
                 const create_payment_json = {
                     "intent": "sale",
                     "payer": {
@@ -108,6 +110,8 @@ exports.payment = (req, res) => {
                     "transactions": [{
                         "item_list": {
                             "items": [{
+                                "name": "item",
+                                "sku": "item",
                                 "price": finalPrice,
                                 "currency": "USD",
                                 "quantity": 1
