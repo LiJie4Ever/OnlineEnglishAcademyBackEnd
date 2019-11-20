@@ -1,7 +1,14 @@
 const admin = require('firebase-admin');
 
 
-exports.getScheduleList = (req, res) => {
+exports.getScheduleList = async (req, res) => {
+    var userm = new Map();
+    await admin.firestore().collection('users').get().then(snapshot=>{
+        snapshot.forEach(doc=>{
+          //console.log(doc.data().userName);
+           userm.set(doc.id, doc.data().userName);
+        });
+    });
     // let db = admin.firestore().collection("schedule");
     // let list = [];
     // let query = db.get()
@@ -19,7 +26,25 @@ exports.getScheduleList = (req, res) => {
     list = [];
     admin.firestore().collection('schedule').get()
     .then((snapshot) => {
-        snapshot.docs.map(doc => list.push(doc.data()));
+        snapshot.docs.map(doc => {
+          var obj = doc.data();
+
+          if(userm.has(obj.student)){
+            obj.student=userm.get(obj.student);
+          }
+          else {
+            obj.student="UNKNOWN";
+          }
+          if(userm.has(obj.tutor)){
+            obj.tutor=userm.get(obj.tutor);
+          }
+          else {
+            obj.tutor="UNKNOWN";
+          }
+
+          obj.id = doc.id;
+          list.push(obj);
+        });
         res.status(200).json({"content": list});
     })
     .catch((err) => {

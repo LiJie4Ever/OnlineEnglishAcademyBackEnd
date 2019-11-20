@@ -3,7 +3,17 @@
 const admin = require('firebase-admin');
 
 
-exports.getRequestList = (req, res) => {
+exports.getRequestList = async (req, res) => {
+    var userm = new Map();
+    await admin.firestore().collection('users').get().then(snapshot=>{
+        snapshot.forEach(doc=>{
+          //console.log(doc.data().userName);
+           userm.set(doc.id, [doc.data().userName, doc.data().email]);
+        });
+    });
+
+
+    //console.log(userm.toString());
     // let db = admin.firestore().collection("request");
     // let list = [];
     // let query = db.get()
@@ -23,7 +33,41 @@ exports.getRequestList = (req, res) => {
     list = [];
     admin.firestore().collection('request').get()
     .then((snapshot) => {
-        snapshot.docs.map(doc => list.push(doc.data()));
+        snapshot.docs.map(doc => {
+
+          //console.log(userm.get("lDdWNayBTCWXTXrYnEbODADOLr02")+"----");
+          let obj = doc.data();
+          //console.log(doc.data().studentId);
+          //console.log(userm.get(doc.data().studentId)+"===");
+
+          if(userm.has(obj.studentId)){
+            obj.studentName=userm.get(obj.studentId)[0];
+            obj.studentEmail=userm.get(obj.studentId)[1];
+          }
+          else {
+            obj.studentName="UNKNOWN";
+          }
+          if(userm.has(obj.preferredT1)){
+            obj.preferredT1=userm.get(obj.preferredT1)[0];
+          }
+          else {
+            obj.preferredT1="UNKNOWN";
+          }
+          if(userm.has(obj.preferredT2)){
+            obj.preferredT2=userm.get(obj.preferredT2)[0];
+          }
+          else {
+            obj.preferredT2="UNKNOWN";
+          }
+          if(userm.has(obj.preferredT3)){
+            obj.preferredT3=userm.get(obj.preferredT3)[0];
+          }
+          else {
+            obj.preferredT3="UNKNOWN";
+          }
+          obj.id = doc.id;
+          list.push(obj);
+        });
         res.status(200).json({"content": list});
     })
     .catch((err) => {
