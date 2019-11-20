@@ -11,7 +11,7 @@ const admin = require('firebase-admin');
  * */
 exports.addCourseIntoCart = (req, res) => {
 
-    let currentUser = admin.firestore().collection("student").doc("abc");  //TODO: change to the current uid
+    let currentUser = admin.firestore().collection("students").doc(req.body.studentID);  //TODO: change to the current uid
     // get current course json from front-end
     let currentCourseId = JSON.parse(req.body.toString());
     console.log(currentCourseId.courseID);
@@ -28,7 +28,7 @@ exports.addCourseIntoCart = (req, res) => {
  * */
 exports.deleteCourseFromCart = (req, res) => {
 
-    let currentUser = admin.firestore().collection("student").doc("abc");  //TODO: change to the current uid
+    let currentUser = admin.firestore().collection("students").doc(req.body.studentID);  //TODO: change to the current uid
     // get current course json from front-end
     let currentCourseId = JSON.parse(req.body.toString());
     console.log(currentCourseId.courseID);
@@ -44,7 +44,7 @@ exports.deleteCourseFromCart = (req, res) => {
  * */
 exports.addLiveTutorRequestIntoCart = (req, res) => {
 
-    let currentUser = admin.firestore().collection("student").doc("abc");  //TODO: change to the current uid
+    let currentUser = admin.firestore().collection("students").doc(req.body.studentID);  //TODO: change to the current uid
     // get current course json from front-end
     let currentTuorRequestId = JSON.parse(req.body.toString());
     console.log(currentTuorRequestId.requestID);
@@ -61,7 +61,7 @@ exports.addLiveTutorRequestIntoCart = (req, res) => {
  * */
 exports.deleteLiveTutorRequestFromCart = (req, res) => {
 
-    let currentUser = admin.firestore().collection("student").doc("abc");  //TODO: change to the current uid
+    let currentUser = admin.firestore().collection("students").doc(req.body.studentID);  //TODO: change to the current uid
     // get current course json from front-end
     let currentTuorRequestId = JSON.parse(req.body.toString());
     console.log(currentTuorRequestId.requestID);
@@ -76,12 +76,10 @@ exports.deleteLiveTutorRequestFromCart = (req, res) => {
  *
  * */
 exports.displayCartInfo = (req, res) => {
-
-    let currentUser = admin.firestore().collection("student").doc("abc");   //TODO: change to the current uid
     let courseIndexArray = [];
     let liveTutorIndexArray = [];
     let cartInfo = [];
-    currentUser.get()
+    admin.firestore().collection("students").doc(req.body.studentID).get()
         .then(doc => {
             if (!doc.exists) {
                 console.log('No such document!');

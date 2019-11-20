@@ -49,3 +49,28 @@ exports.sendConfirmation = (req, res) => {
             res.status(400).json({ "Error": "When fetching student " + err.message });
         });
 };
+
+exports.getMeetingList = async (req, res) => {
+    var student_id = req.body.uid;
+    admin.firestore().collection('meeting').where("student_id", "==", student_id).
+    orderBy('start_time').get()
+    .then(snapshot => {
+        res.status(200).json(snapshot.docs.map(doc => doc.data()));
+    }).catch(function(err) {
+        res.status(400).json({"Error": err.message});
+    });
+};
+
+exports.setMeetingLink = (req, res) => {
+    admin.firestore().collection('meeting').doc(req.body.id).get()
+        .then(function (doc) {
+            if (doc.exists) {
+                admin.firestore().collection('meeting').doc(req.body.id).update(req.body.fields);
+                res.status(200).json({ "Success": "Meeting link set" });
+            } else {
+                res.status(400).json({ "Error": "Meeting not found" });
+            }
+        }).catch(function (err) {
+            res.status(400).json({ "Error": err.message });
+        });
+};

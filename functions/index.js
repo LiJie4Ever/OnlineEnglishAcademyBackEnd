@@ -1,4 +1,4 @@
-//export GOOGLE_APPLICATION_CREDENTIALS=/Users/davidxuan/Desktop/USC/577A/OnlineEnglishLearningAcadamyBackEnd/functions/service-account-file.json
+//export GOOGLE_APPLICATION_CREDENTIALS=/Users/davidxuan/Desktop/USC/577A/OnlineEnglishAcademyBackEnd/functions/service-account-file.json
 
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
@@ -16,7 +16,8 @@ const { addLesson, modifyLesson, removeLesson } = require('./handler/admin');
 
 const { getBlogComments, postComment } = require('./handler/blog');
 
-const { sendConfirmation } = require('./handler/tutoring');
+const { sendConfirmation, getMeetingList, setMeetingLink } = require('./handler/meeting');
+
 const { retrieveBlog } = require('./handler/blog');
 const { getCourse } = require('./handler/course');
 const { retrieveTeacherInfo } = require('./handler/teacher');
@@ -67,9 +68,8 @@ app.get('/blog/comments', getBlogComments);
 app.post('/blog/post_comment', postComment);
 
 app.post('/meeting/sendConfirmation', sendConfirmation);
-
-
-//app.post('/create_meeting', signUp);
+app.get('/meeting/get', getMeetingList);
+app.post('/meeting/set_link', setMeetingLink);
 
 app.get('/blog', retrieveBlog);
 app.get('/course', getCourse);
