@@ -46,7 +46,7 @@ app.post('/cart/course/add', addCourseIntoCart);
 app.post('/cart/course/delete', deleteCourseFromCart);
 app.post('/cart/tutor/add', addLiveTutorRequestIntoCart);
 app.post('/cart/tutor/delete', deleteLiveTutorRequestFromCart);
-app.get('/cart', displayCartInfo);
+app.post('/cart', displayCartInfo);
 
 // payment module
 app.post('/pay', payment);
