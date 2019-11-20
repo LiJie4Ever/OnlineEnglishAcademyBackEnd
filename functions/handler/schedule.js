@@ -18,16 +18,55 @@ const mailTransport = nodemailer.createTransport({
     },
 });
 
-exports.getScheduleList = (req, res) => {
+exports.getScheduleList = async (req, res) => {
+    var userm = new Map();
+    await admin.firestore().collection('users').get().then(snapshot=>{
+        snapshot.forEach(doc=>{
+          //console.log(doc.data().userName);
+           userm.set(doc.id, doc.data().userName);
+        });
+    });
+    // let db = admin.firestore().collection("schedule");
+    // let list = [];
+    // let query = db.get()
+    //     .then(snapshot => {
+    //         snapshot.forEach(doc =>{
+    //             let reqObject = {id:doc.id, createTime:doc.data().createTime, duration:doc.data().duration, link:doc.data().link,
+    //                 meetingStartTime:doc.data().meetingStartTime, offset:doc.data().offset, student:doc.data().student, tutor:doc.data().tutor, status:doc.data().status};
+    //             list.push(reqObject);
+    //         });
+    //         return res.status(200).json({content: list});
+    //     })
+    //     .catch(err => {
+    //         res.status(400).json(err);
+    //     });
     list = [];
     admin.firestore().collection('schedule').get()
-        .then((snapshot) => {
-            snapshot.docs.map(doc => list.push(doc.data()));
-            res.status(200).json({ "content": list });
-        })
-        .catch((err) => {
-            res.status(400).json({ "Error": err.message });
+    .then((snapshot) => {
+        snapshot.docs.map(doc => {
+          var obj = doc.data();
+
+          if(userm.has(obj.student)){
+            obj.student=userm.get(obj.student);
+          }
+          else {
+            obj.student="UNKNOWN";
+          }
+          if(userm.has(obj.tutor)){
+            obj.tutor=userm.get(obj.tutor);
+          }
+          else {
+            obj.tutor="UNKNOWN";
+          }
+
+          obj.id = doc.id;
+          list.push(obj);
         });
+        res.status(200).json({"content": list});
+    })
+    .catch((err) => {
+        res.status(400).json({"Error": err.message});
+    });
 };
 
 //parameters input: body:{studentID:"XXXX"}
