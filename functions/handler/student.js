@@ -2,6 +2,8 @@ const admin = require('firebase-admin');
 
 
 exports.getStudent = (req, res) => {
+    console.log(req.body);
+    console.log(req.data);
     admin.firestore().collection("students").doc(req.body.id).get()
         .then(doc => {
             if (doc.exists) {
