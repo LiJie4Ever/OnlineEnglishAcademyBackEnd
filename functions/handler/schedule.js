@@ -4,11 +4,11 @@ const nodemailer = require('nodemailer');
 const functions = require('firebase-functions');
 
 // use when testing other functions locally
-const gmailEmail = "";
-const gmailPassword = "";
+// const gmailEmail = "";
+// const gmailPassword = "";
 
-// const gmailEmail = functions.config().gmail.email;
-// const gmailPassword = functions.config().gmail.password;
+const gmailEmail = functions.config().gmail.email;
+const gmailPassword = functions.config().gmail.password;
 
 const mailTransport = nodemailer.createTransport({
     service: 'gmail',
@@ -204,7 +204,7 @@ exports.sendConfirmation = (req, res) => {
                                 to: student_info['email'],
                             };
                             mailOptions.subject = `Your upcoming tutoring session!`;
-                            mailOptions.text = `Hey ${student_info['userName'] || ''}!, your have an upcoming tutoring session with ${tutor_info['userName']} from ${req.body.start_time} to ${req.body.end_time}.`;
+                            mailOptions.text = `Hey ${student_info['userName'] || ''}!, your have an upcoming tutoring session with ${tutor_info['userName']} at ${req.body.start_time}.`;
                             mailTransport.sendMail(mailOptions);
                             res.status(200).json({ "Success": "Email sent successfully" });
                         } else {

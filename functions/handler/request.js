@@ -155,3 +155,24 @@ exports.setRequestStatus = (req, res) => {
         res.status(400).json({"Error": err.message});
     });
 };
+
+exports.sendRequestConfirmation = (req, res) => {
+    admin.firestore().collection('users').doc(req.body.student_uid).get()
+        .then(function (doc) {
+            if (doc.exists) {
+                student_info = doc.data();
+                const mailOptions = {
+                    from: `${APP_NAME} <noreply@firebase.com>`,
+                    to: student_info['email'],
+                };
+                mailOptions.subject = `Your upcoming tutoring session!`;
+                mailOptions.text = req.body.content;
+                mailTransport.sendMail(mailOptions);
+                res.status(200).json({ "Success": "Email sent successfully" });
+            } else {
+                res.status(400).json({ "Error": "Student not found" });
+            }
+        }).catch(function (err) {
+            res.status(400).json({ "Error": "When fetching student " + err.message });
+        });
+};

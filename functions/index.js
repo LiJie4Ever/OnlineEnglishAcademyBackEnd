@@ -27,7 +27,7 @@ const { addLiveTutorRequestIntoCart, deleteLiveTutorRequestFromCart, moveToBough
 const { payment, paid } = require('./handler/pay');
 
 //request module
-const { getRequestList } = require('./handler/request');
+const { getRequestList, sendRequestConfirmation } = require('./handler/request');
 const { createRequest, confirmRequest, cancelRequest, setRequestStatus, setRequestPrice } = require('./handler/request');
 
 //schedule related
@@ -87,6 +87,7 @@ app.get('/request/getList', getRequestList);
 app.post('/request/create', createRequest);
 app.post('/request/setPrice', setRequestPrice);
 app.post('/request/confirm', confirmRequest);
+app.post('/request/sendConfirm', sendRequestConfirmation);
 app.post('/request/cancel', cancelRequest);
 app.post('/request/setStatus', setRequestStatus);
 //schedule related

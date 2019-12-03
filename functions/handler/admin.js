@@ -7,9 +7,7 @@ function validParam(id) {
     return true;
 }
 
-
 // TUTOR RELATED FUNCTIONS
-
 exports.addTutor = (req, res) => {
     admin.firestore().collection('tutors').add(req.body.fields)
         .then((docRef) => {
@@ -55,9 +53,7 @@ exports.removeTutor = (req, res) => {
         });
 }
 
-
 // BLOG RELATED FUNCTIONS
-
 exports.addBlog = (req, res) => {
     admin.firestore().collection('blog').add(req.body.fields)
         .then((docRef) => {
@@ -108,7 +104,6 @@ exports.removeBlog = (req, res) => {
 
 
 // COURSE RELATED FUNCTIONS
-
 exports.addCourse = (req, res) => {
     admin.firestore().collection('course').add(req.body.fields)
         .then((docRef) => {
@@ -154,15 +149,37 @@ exports.removeCourse = (req, res) => {
 };
 
 // LESSON RELATED FUNCTIONS
-
-exports.addLesson = (req, res) => {
-    admin.firestore().collection('lesson').add(req.body.fields)
+exports.addLesson = async (req, res) => {
+    let id = await admin.firestore().collection('lesson').add(req.body.fields)
         .then((docRef) => {
-            res.status(200).json({ "Success": docRef.id });
+            return docRef.id;
         })
         .catch((err) => {
             res.status(400).json({ "Error": err.message });
+            return "";
         });
+    if (id === "") {
+        return;
+    }
+    let old = await admin.firestore().collection('course').doc(req.body.fields.course_id).get()
+    .then((doc) =>{
+        return doc.data().lessonArray;
+    })
+    .catch((err) => {
+        res.status(400).json({ "Error": err.message });
+        return "";
+    });
+    if (old === "") {
+        return;
+    }
+    old.push(id);
+    admin.firestore().collection('course').doc(req.body.fields.course_id).update({lessonArray: old})
+    .then(() => {
+        res.status(200).json({"Success": "Lesson added"});
+    })
+    .catch(err => {
+        res.status(400).json({ "Error": err.message });
+    })
 };
 
 exports.modifyLesson = (req, res) => {
@@ -182,20 +199,30 @@ exports.modifyLesson = (req, res) => {
         });
 };
 
-exports.removeLesson = (req, res) => {
+exports.removeLesson = async (req, res) => {
     if (!validParam(req.body.id)) {
         res.status(400).json({ "Error": "Invalid ID" });
     }
-    admin.firestore().collection('lesson').doc(req.body.id).get()
+    let courseID = await admin.firestore().collection('lesson').doc(req.body.id).get()
         .then(function (doc) {
             if (doc.exists) {
+                tmp = doc.data().course_id;
                 admin.firestore().collection('lesson').doc(req.body.id).delete();
-                res.status(200).json({ "Success": "Lesson removed" });
-            } else {
-                res.status(404).json({ "Error": "Lesson not found" });
+                return tmp;
             }
-        }).catch(function (err) {
-            res.status(400).json({ "Error": err.message });
-        });
+        })
+    let updated = await admin.firestore().collection('course').doc(courseID).get()
+    .then((doc) => {
+        tmp = doc.data().lessonArray;
+        idx = tmp.indexOf(req.body.id);
+        tmp.splice(idx, 1);
+        return tmp;
+    })
+    admin.firestore().collection('course').doc(courseID).update({"lessonArray": updated})
+    .then((doc) => {
+        res.status(200).json({"Success": "Lesson removed"});
+    })
+    .catch((err) => {
+        res.status(400).json({ "Error": err.message });
+    })
 };
-
