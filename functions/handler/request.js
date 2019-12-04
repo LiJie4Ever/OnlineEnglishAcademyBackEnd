@@ -1,7 +1,24 @@
 //export GOOGLE_APPLICATION_CREDENTIALS=/home/horace/aela/OnlineEnglishAcademyBackEnd/functions/service-account-file.json
 
 const admin = require('firebase-admin');
+const APP_NAME = 'Online English Academy';
+const nodemailer = require('nodemailer');
+const functions = require('firebase-functions');
 
+// use when testing other functions locally
+// const gmailEmail = "";
+// const gmailPassword = "";
+
+const gmailEmail = functions.config().gmail.email;
+const gmailPassword = functions.config().gmail.password;
+
+const mailTransport = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: gmailEmail,
+        pass: gmailPassword,
+    },
+});
 
 exports.getRequestList = async (req, res) => {
     var userm = new Map();

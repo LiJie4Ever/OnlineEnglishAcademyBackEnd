@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const APP_NAME = 'Online English Learning Academy';
+const APP_NAME = 'Online English Academy';
 const nodemailer = require('nodemailer');
 const functions = require('firebase-functions');
 
