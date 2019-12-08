@@ -1,6 +1,10 @@
 const admin = require('firebase-admin');
 
-
+/*
+retrieve all tutors in the database
+req: {}
+ret: 200 if successful, otherwise 400
+*/
 exports.retrieveTeacherInfo = (req, res) => {
     admin.firestore().collection('tutors').get()
     .then((snapshot) => {

@@ -4,11 +4,11 @@ const nodemailer = require('nodemailer');
 const functions = require('firebase-functions');
 
 // use when testing other functions locally
-// const gmailEmail = "";
-// const gmailPassword = "";
+const gmailEmail = "";
+const gmailPassword = "";
 
-const gmailEmail = functions.config().gmail.email;
-const gmailPassword = functions.config().gmail.password;
+// const gmailEmail = functions.config().gmail.email;
+// const gmailPassword = functions.config().gmail.password;
 
 const mailTransport = nodemailer.createTransport({
     service: 'gmail',

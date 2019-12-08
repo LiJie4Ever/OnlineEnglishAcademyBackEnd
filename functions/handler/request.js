@@ -6,11 +6,11 @@ const nodemailer = require('nodemailer');
 const functions = require('firebase-functions');
 
 // use when testing other functions locally
-// const gmailEmail = "";
-// const gmailPassword = "";
+const gmailEmail = "";
+const gmailPassword = "";
 
-const gmailEmail = functions.config().gmail.email;
-const gmailPassword = functions.config().gmail.password;
+// const gmailEmail = functions.config().gmail.email;
+// const gmailPassword = functions.config().gmail.password;
 
 const mailTransport = nodemailer.createTransport({
     service: 'gmail',
@@ -29,24 +29,6 @@ exports.getRequestList = async (req, res) => {
         });
     });
 
-
-    //console.log(userm.toString());
-    // let db = admin.firestore().collection("request");
-    // let list = [];
-    // let query = db.get()
-    //     .then(snapshot => {
-    //         snapshot.forEach(doc =>{
-    //             let reqObject = {id:doc.id, student:doc.data().student, availableTime:doc.data().availableTime, status:doc.data().status,
-    //                 numOfS:doc.data().numOfS, note:doc.data().note, preferredT1:doc.data().preferredT1, email:doc.data().email,
-    //                 preferredT2:doc.data().preferredT2, preferredT3:doc.data().preferredT3, price:doc.data().price, timezone:doc.data().timezone};
-    //             list.push(reqObject);
-    //         });
-    //         return res.status(200).json({content: list});
-    //     })
-    //     .catch(err => {
-    //         console.log('Error getting documents', err);
-    //         res.status(400).json(err);
-    //     });
     list = [];
     admin.firestore().collection('request').get()
     .then((snapshot) => {

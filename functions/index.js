@@ -50,6 +50,8 @@ app.post('/cart/update_bought', moveToBought);
 app.post('/cart', displayCartInfo);
 
 // payment module
+
+// TODO: add payment when clicking on checkout
 app.post('/pay', payment);
 app.get('/classList', paid);
 

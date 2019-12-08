@@ -7,6 +7,11 @@ function validParam(id) {
     return true
 }
 
+/*
+retrieve a user in the database
+req: {id: <some-id>}
+ret: 200 if successful, 404 if not found, otherwise 400
+*/
 exports.getUser = (req, res) => {
     if (!validParam(req.body.id)) {
         res.status(400).json({ "Error": "Invalid ID" });
@@ -25,7 +30,11 @@ exports.getUser = (req, res) => {
         });
 };
 
-
+/*
+modify a user in the database
+req: {id: <some-id>, fields: <fields-to-be-modified>}
+ret: 200 if successful, 404 if not found, otherwise 400
+*/
 exports.modifyUser = (req, res) => {
     if (!validParam(req.body.id)) {
         res.status(400).json({ "Error": "Invalid ID" });
@@ -44,7 +53,11 @@ exports.modifyUser = (req, res) => {
         });
 };
 
-
+/*
+remove a user in the database
+req: {id: <some-id>}
+ret: 200 if successful, 404 if not found, otherwise 400
+*/
 exports.removeUser = (req, res) => {
     if (!validParam(req.body.id)) {
         res.status(400).json({ "Error": "Invalid ID" });
