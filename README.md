@@ -49,64 +49,81 @@
 
 #### API Documentation
 
-Admin
+**Admin**
 
-| Endpoint       | Description |
-| -------------- | ----------- |
-| /tutor/add     |             |
-| /tutor/modify  |             |
-| /tutor/remove  |             |
-| /student/get   |             |
-| /blog/add      |             |
-| /blog/modify   |             |
-| /blog/remove   |             |
-| /course/add    |             |
-| /course/modify |             |
-| /course/remove |             |
-| /lesson/get    |             |
-| /lesson/add    |             |
-| /lesson/modify |             |
-| /lesson/remove |             |
+| Endpoint       | Description                                                     | Method | Prameter   | Return                                               |
+| -------------- | --------------------------------------------------------------- | ------ | ---------- | ---------------------------------------------------- |
+| /tutor/add     | Add a tutor to the database                                     | POST   | fields     | Status: 200, 400; Success: tutor id, Error: message  |
+| /tutor/modify  | Modify a tutor in the database                                  | POST   | id, fields | Status: 200, 40X; Success: message, Error: message   |
+| /tutor/remove  | Remove a tutor from the database                                | POST   | id         | Status: 200, 40X; Success: message, Error: message   |
+| /student/get   | Retrieve a student from the database                            | GET    | id         | Status: 200, 40X; Success: message, Error: message   |
+| /blog/add      | Add a blog to the database                                      | POST   | fields     | Status: 200, 40x; Success: blog id, Error: message   |
+| /blog/modify   | Modify a blog in the database                                   | POST   | id, fields | Status: 200, 40x; Success: message, Error: message   |
+| /blog/remove   | Remove a blog from the database                                 | POST   | id         | Status: 200, 40x; Success: message, Error: message   |
+| /course/add    | Add a course to the database                                    | POST   | fields     | Status: 200, 400; Success: course id, Error: message |
+| /course/modify | Modify a course in the database                                 | POST   | id, fields | Status: 200, 40x; Success: message, Error: message   |
+| /course/remove | Remove a course from the database                               | POST   | id         | Status: 200, 40x; Success: message, Error: message   |
+| /lesson/get    | Retrieve a lesson from the database                             | POST   | id         | Status: 200, 40x; Success: message, Error: message   |
+| /lesson/add    | Add a lesson to the database, and its course's lesson list      | POST   | fields     | Status: 200, 400; Success: message, Error: message   |
+| /lesson/modify | Modify a lesson in the database                                 | POST   | id, fields | Status: 200, 40x; Success: message, Error: message   |
+| /lesson/remove | Remove a lesson from the database, and its course's lesson list | POST   | id         | Status: 200, 40x; Success: message, Error: message   |
 
-Cart
+**User**
 
-| Endpoint            | Description |
-| ------------------- | ----------- |
-| /cart               |             |
-| /cart/course/add    |             |
-| /cart/course/delete |             |
-| /cart/tutor/add     |             |
-| /cart/tutor/delete  |             |
-| /cart/update_bought |             |
+| Endpoint     | Description                       | Method | Prameter   | Return                                             |
+| ------------ | --------------------------------- | ------ | ---------- | -------------------------------------------------- |
+| /user/get    | Retrieve a user from the database | POST   | id         | Status: 200, 400; Success: message, Error: message |
+| /user/modify | Modify a user in the database     | POST   | id, fields | Status: 200, 40X; Success: message, Error: message |
+| /user/remove | Remove a user from the database   | POST   | id         | Status: 200, 40X; Success: message, Error: message |
 
-Pay
+**Blog**
+app.get('/blog/comments', getBlogComments);
+app.post('/blog/post_comment', postComment);
 
-| Endpoint   | Description |
-| ---------- | ----------- |
-| /pay       |             |
-| /classList |             |
+| Endpoint           | Description                     | Method | Prameter | Return                                                |
+| ------------------ | ------------------------------- | ------ | -------- | ----------------------------------------------------- |
+| /blog/comments     | Retrieve the comments of a blog | POST   | blog_id  | Status: 200, 400; Comment data, Error: message        |
+| /blog/post_comment | Post a comment to a blog        | POST   | fields   | Status: 200, 40X; Success: comment id, Error: message |
 
-Request
+**Cart**
 
-| Endpoint             | Description |
-| -------------------- | ----------- |
-| /request/getList     |             |
-| /request/create      |             |
-| /request/setPrice    |             |
-| /request/confirm     |             |
-| /request/sendConfirm |             |
-| /request/cancel      |             |
-| /request/setStatus   |             |
+| Endpoint            | Description | Method | Prameter | Return |
+| ------------------- | ----------- | ------ | -------- | ------ |
+| /cart               |             |        |          |        |
+| /cart/course/add    |             |        |          |        |
+| /cart/course/delete |             |        |          |        |
+| /cart/tutor/add     |             |        |          |        |
+| /cart/tutor/delete  |             |        |          |        |
+| /cart/update_bought |             |        |          |        |
 
-Schedule
+**Pay**
 
-| Endpoint                   | Description |
-| -------------------------- | ----------- |
-| /schedule/getList          |             |
-| /schedule/getStu           |             |
-| /schedule/getTu            |             |
-| /schedule/delete           |             |
-| /schedule/add              |             |
-| /schedule/history          |             |
-| /schedule/sendConfirmation |             |
-| /schedule/setScheduleLink  |             |
+| Endpoint   | Description | Method | Prameter | Return |
+| ---------- | ----------- | ------ | -------- | ------ |
+| /pay       |             |        |          |        |
+| /classList |             |        |          |        |
+
+**Request**
+
+| Endpoint             | Description | Method | Prameter | Return |
+| -------------------- | ----------- | ------ | -------- | ------ |
+| /request/getList     |             |        |          |        |
+| /request/create      |             |        |          |        |
+| /request/setPrice    |             |        |          |        |
+| /request/confirm     |             |        |          |        |
+| /request/sendConfirm |             |        |          |        |
+| /request/cancel      |             |        |          |        |
+| /request/setStatus   |             |        |          |        |
+
+**Schedule**
+
+| Endpoint                   | Description | Method | Prameter | Return |
+| -------------------------- | ----------- | ------ | -------- | ------ |
+| /schedule/getList          |             |        |          |        |
+| /schedule/getStu           |             |        |          |        |
+| /schedule/getTu            |             |        |          |        |
+| /schedule/delete           |             |        |          |        |
+| /schedule/add              |             |        |          |        |
+| /schedule/history          |             |        |          |        |
+| /schedule/sendConfirmation |             |        |          |        |
+| /schedule/setScheduleLink  |             |        |          |        |
