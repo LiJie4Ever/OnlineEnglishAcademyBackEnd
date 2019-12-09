@@ -77,8 +77,6 @@
 | /user/remove | Remove a user from the database   | POST   | id         | Status: 200, 40X; Success: message, Error: message |
 
 **Blog**
-app.get('/blog/comments', getBlogComments);
-app.post('/blog/post_comment', postComment);
 
 | Endpoint           | Description                     | Method | Prameter | Return                                                |
 | ------------------ | ------------------------------- | ------ | -------- | ----------------------------------------------------- |
