@@ -1,8 +1,8 @@
 # Online English Academy Backend
 
-### USC Fall 2019 CSCI 577A Team02
+## USC Fall 2019 CSCI 577A Team02
 
-#### How to get started
+### How to get started
 
 1. Clone this repository
 
@@ -37,7 +37,7 @@
 
     Function logs can be viewed in Firebase Console -> Functions -> Logs
 
-##### Other things
+#### Other things
 
 * Need to hide environment variables in code
 * When testing locally, modify gmail info in [functions/handler/request.js](functions/handler/request.js) and [functions/handler/schedule.js](functions/handler/schedule.js). (See code comments)
@@ -47,7 +47,7 @@
 * Integrate blog comments and course comments
 * Change request confirmation workflow
 
-#### API Documentation
+### API Documentation
 
 **Admin**
 
