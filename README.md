@@ -85,21 +85,21 @@
 
 #### Cart
 
-| Endpoint            | Description | Method | Prameter | Return |
+| Endpoint            | Description                                      | Method | Prameter       | Return |
 | ------------------- | ----------- | ------ | -------- | ------ |
-| /cart               |             |        |          |        |
-| /cart/course/add    |             |        |          |        |
-| /cart/course/delete |             |        |          |        |
-| /cart/tutor/add     |             |        |          |        |
-| /cart/tutor/delete  |             |        |          |        |
-| /cart/update_bought |             |        |          |        |
+| /cart               |  display cart info                               |  POST  |  id            |  Status: 200, 400; Success: message, Error: message  |
+| /cart/course/add    |  add a course into cart                          |  POST  |  id, courseID  |  Status: 200, 400; Success: message, Error: message  |
+| /cart/course/delete |  delete a course from cart                       |  POST  |  id, courseID  |  Status: 200, 400; Success: message, Error: message  |
+| /cart/tutor/add     |  add a live tutoring request into cart           |  POST  |  id, requestID |  Status: 200, 400; Success: message, Error: message  |
+| /cart/tutor/delete  |  delete a live tutoring request from cart        |  POST  |  id, requestID |  Status: 200, 400; Success: message, Error: message  |
+| /cart/update_bought |  move items intoto bought table after checkout   |  POST  |  id            |  Status: 200, 400; Success: message, Error: message  |
 
 #### Pay
 
 | Endpoint   | Description | Method | Prameter | Return |
 | ---------- | ----------- | ------ | -------- | ------ |
-| /pay       |             |        |          |        |
-| /classList |             |        |          |        |
+| /pay       | call PayPal API, create transaction      |  POST  |  id                              |  Status: 200, 400; Success: message, Error: message  |
+| /classList | make the payment, complete transaction   |  GET   |  TotalPrice, PayerID, paymentId  |  Status: 200, 400; Success: message, Error: message  |
 
 #### Request
 
