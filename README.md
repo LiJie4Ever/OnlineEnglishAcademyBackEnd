@@ -49,7 +49,7 @@
 
 ### API Documentation
 
-**Admin**
+#### Admin
 
 | Endpoint       | Description                                                     | Method | Prameter   | Return                                               |
 | -------------- | --------------------------------------------------------------- | ------ | ---------- | ---------------------------------------------------- |
@@ -68,7 +68,7 @@
 | /lesson/modify | Modify a lesson in the database                                 | POST   | id, fields | Status: 200, 40x; Success: message, Error: message   |
 | /lesson/remove | Remove a lesson from the database, and its course's lesson list | POST   | id         | Status: 200, 40x; Success: message, Error: message   |
 
-**User**
+#### User
 
 | Endpoint     | Description                       | Method | Prameter   | Return                                             |
 | ------------ | --------------------------------- | ------ | ---------- | -------------------------------------------------- |
@@ -76,14 +76,14 @@
 | /user/modify | Modify a user in the database     | POST   | id, fields | Status: 200, 40X; Success: message, Error: message |
 | /user/remove | Remove a user from the database   | POST   | id         | Status: 200, 40X; Success: message, Error: message |
 
-**Blog**
+#### Blog
 
 | Endpoint           | Description                     | Method | Prameter | Return                                                |
 | ------------------ | ------------------------------- | ------ | -------- | ----------------------------------------------------- |
 | /blog/comments     | Retrieve the comments of a blog | POST   | blog_id  | Status: 200, 400; Comment data, Error: message        |
 | /blog/post_comment | Post a comment to a blog        | POST   | fields   | Status: 200, 40X; Success: comment id, Error: message |
 
-**Cart**
+#### Cart
 
 | Endpoint            | Description | Method | Prameter | Return |
 | ------------------- | ----------- | ------ | -------- | ------ |
@@ -94,14 +94,14 @@
 | /cart/tutor/delete  |             |        |          |        |
 | /cart/update_bought |             |        |          |        |
 
-**Pay**
+#### Pay
 
 | Endpoint   | Description | Method | Prameter | Return |
 | ---------- | ----------- | ------ | -------- | ------ |
 | /pay       |             |        |          |        |
 | /classList |             |        |          |        |
 
-**Request**
+#### Request
 
 | Endpoint             | Description | Method | Prameter | Return |
 | -------------------- | ----------- | ------ | -------- | ------ |
@@ -113,7 +113,7 @@
 | /request/cancel      |             |        |          |        |
 | /request/setStatus   |             |        |          |        |
 
-**Schedule**
+#### Schedule
 
 | Endpoint                   | Description | Method | Prameter | Return |
 | -------------------------- | ----------- | ------ | -------- | ------ |
