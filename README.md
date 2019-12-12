@@ -96,32 +96,33 @@
 
 #### Pay
 
-| Endpoint   | Description | Method | Prameter | Return |
-| ---------- | ----------- | ------ | -------- | ------ |
+| Endpoint   | Description                              | Method | Prameter                         | Return |
+| ---------- | ---------------------------------------- | ------ | -------------------------------- | ------ |
 | /pay       | call PayPal API, create transaction      |  POST  |  id                              |  Status: 200, 400; Success: message, Error: message  |
 | /classList | make the payment, complete transaction   |  GET   |  TotalPrice, PayerID, paymentId  |  Status: 200, 400; Success: message, Error: message  |
 
 #### Request
 
-| Endpoint             | Description | Method | Prameter | Return |
-| -------------------- | ----------- | ------ | -------- | ------ |
-| /request/getList     |             |        |          |        |
-| /request/create      |             |        |          |        |
-| /request/setPrice    |             |        |          |        |
-| /request/confirm     |             |        |          |        |
-| /request/sendConfirm |             |        |          |        |
-| /request/cancel      |             |        |          |        |
-| /request/setStatus   |             |        |          |        |
+| Endpoint             | Description                               | Method| Prameter          | Return |
+| -------------------- | ----------------------------------------- | ----- | ----------------- | ------ |
+| /request/getList     | get entire request list data              |  GET  |  none             |  Status: 200, 400; Success: Request list, Error: message |
+| /request/create      | create a request                          |  POST |  request fields   |  Status: 200, 400; Success: id, Error: message        |
+| /request/setPrice    | set the price of a request                |  POST |  request id, price|  Status: 200, 400; Success: message, Error: message |
+| /request/confirm     | set the status of a request to "confirmed"|  POST |  request id       |  Status: 200, 400; Success: message, Error: message |
+| /request/sendConfirm | send confirmation email to user           |  POST |  user id          |  Status: 200, 400; Success: message, Error: message |
+| /request/cancel      | remove a request                          |  POST |  request id       |  Status: 200, 400; Success: message, Error: message |
+| /request/setStatus   | set the status of a request to "paid"     |  POST |  request id       |  Status: 200, 400; Success: message, Error: message |
+
 
 #### Schedule
 
 | Endpoint                   | Description | Method | Prameter | Return |
-| -------------------------- | ----------- | ------ | -------- | ------ |
-| /schedule/getList          |             |        |          |        |
-| /schedule/getStu           |             |        |          |        |
-| /schedule/getTu            |             |        |          |        |
-| /schedule/delete           |             |        |          |        |
-| /schedule/add              |             |        |          |        |
-| /schedule/history          |             |        |          |        |
-| /schedule/sendConfirmation |             |        |          |        |
-| /schedule/setScheduleLink  |             |        |          |        |
+| -------------------------- | --------------------------------------- | ----- | ------------ | ------------------------------------------------------------ |
+| /schedule/getList          | get entire schedule list data           |  GET  |  none        |  Status: 200, 400; Success: Schedule list, Error: message |
+| /schedule/getStu           | get schedule list data of a student user|  GET  |  student id  |  Status: 200, 400; Success: Schedule list, Error: message |
+| /schedule/getTu            | get schedule list data of a tutor user  |  GET  |  tutor id    |  Status: 200, 400; Success: Schedule list, Error: message |   
+| /schedule/delete           | remove a schedule                       |  POST |  schedule id |  Status: 200, 400; Success: message, Error: message       |
+| /schedule/add              | create a schedule                       |  POST |schedule field|  Status: 200, 400; Success: schedule id, Error: message       |
+| /schedule/history          | get schedule list data of a user        |  GET  |  user id     |  Status: 200, 400; Success: Schedule list, Error: message |
+| /schedule/sendConfirmation | send confirmation email to user         |  POST |  user id     |  Status: 200, 400; Success: message, Error: message       |
+| /schedule/setScheduleLink  | set the link to a schedule              |  POST |  schedule id |  Status: 200, 400; Success: message, Error: message       |
